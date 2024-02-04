@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Home" />
+    <item
+        android:id="@+id/nav_rewards"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="My Rewards" />
+    <item
+        android:id="@+id/nav_store"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Store" />
+</menu>
