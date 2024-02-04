@@ -1,5 +1,6 @@
 package com.example.umoove;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -14,14 +15,20 @@ import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.navigation.NavigationView;
+
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     // Layout
     private DrawerLayout drawerLayout;
@@ -40,6 +47,9 @@ public class HomeActivity extends AppCompatActivity {
     private Date startDateTime;
     private final double maxMeanSpeed = 15.0;
     private final double maxAbsoluteSpeed = 40.0;
+
+    // Services
+    private HttpService httpService;
 
     // Listeners
     private final LocationListener locationListener = new LocationListener() {
@@ -66,6 +76,7 @@ public class HomeActivity extends AppCompatActivity {
 
         // to make the Navigation drawer icon always appear on the action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setNavigationViewListener();
 
         // Fetch entities
         currentUser = new User();
@@ -73,13 +84,22 @@ public class HomeActivity extends AppCompatActivity {
         // Set Managers
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         LocationProvider locationProvider = locationManager.getProvider(LocationManager.GPS_PROVIDER);
-
+        httpService = new HttpService();
 
         // Set Elements
         pointsText = (TextView) findViewById(R.id.pointsNb);
         pointsText.setText(String.valueOf(currentUser.getPoints()));
 
         startButton = (Button)findViewById(R.id.startMoveButton);
+
+        // Fetch activity details
+        try {
+            List<Activity> activities = httpService.getActivities();
+            Toast toast = Toast.makeText(this, activities.toString(), Toast.LENGTH_LONG);
+            toast.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         startButton.setOnClickListener((view) -> {
             if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -90,6 +110,16 @@ public class HomeActivity extends AppCompatActivity {
 
             toggleMove(location);
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void enableLocationSettings() {
@@ -132,5 +162,24 @@ public class HomeActivity extends AppCompatActivity {
                 * Math.cos(Math.toRadians(loc2.getLatitude())))
                 * (Math.cos(Math.toRadians(loc2.getLongitude())
                 - Math.toRadians(loc1.getLongitude())))) * 6371;
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.nav_store) {
+            Intent i = new Intent(HomeActivity.this, StoreActivity.class);
+            startActivity(i);
+        } else if (id == R.id.nav_rewards) {
+            // TODO
+        }
+
+        return false;
+    }
+
+    private void setNavigationViewListener() {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 }
