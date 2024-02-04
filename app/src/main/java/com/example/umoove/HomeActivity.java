@@ -186,7 +186,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             Intent i = new Intent(HomeActivity.this, StoreActivity.class);
             startActivity(i);
         } else if (id == R.id.nav_rewards) {
-            // TODO
+            Intent i = new Intent(HomeActivity.this, MesCoupons.class);
+            startActivity(i);
         }
 
         return false;

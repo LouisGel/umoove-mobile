@@ -65,7 +65,8 @@ public class StoreActivity extends AppCompatActivity implements NavigationView.O
             Intent i = new Intent(StoreActivity.this, HomeActivity.class);
             startActivity(i);
         } else if (id == R.id.nav_rewards) {
-            // TODO
+            Intent i = new Intent(StoreActivity.this, MesCoupons.class);
+            startActivity(i);
         }
 
         return false;
