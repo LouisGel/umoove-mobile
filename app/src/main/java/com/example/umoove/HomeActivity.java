@@ -2,14 +2,12 @@ package com.example.umoove;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -20,12 +18,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.navigation.NavigationView;
-
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.chrono.ChronoLocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -40,6 +32,7 @@ public class HomeActivity extends AppCompatActivity {
 
     // Elements
     private Button startButton;
+    private TextView pointsText;
 
     // Values
     private boolean moving = false;
@@ -53,7 +46,7 @@ public class HomeActivity extends AppCompatActivity {
         @Override
         public void onLocationChanged(final Location location) {
             double speedKmH = Float.valueOf(location.getSpeed()*3.6f).doubleValue();
-            if (speedKmH > maxAbsoluteSpeed) {
+            if (speedKmH > maxAbsoluteSpeed && moving) {
                 toggleMove(location);
             }
         }
@@ -83,8 +76,8 @@ public class HomeActivity extends AppCompatActivity {
 
 
         // Set Elements
-        TextView points = (TextView) findViewById(R.id.pointsNb);
-        points.setText(String.valueOf(currentUser.getPoints()));
+        pointsText = (TextView) findViewById(R.id.pointsNb);
+        pointsText.setText(String.valueOf(currentUser.getPoints()));
 
         startButton = (Button)findViewById(R.id.startMoveButton);
 
@@ -115,6 +108,12 @@ public class HomeActivity extends AppCompatActivity {
             double meanSpeed = distance/(seconds/3600.0);
             Toast toast = Toast.makeText(this, String.valueOf(meanSpeed) + "km/h", Toast.LENGTH_LONG);
             toast.show();
+
+            // Distribute reward
+            if (meanSpeed <= maxMeanSpeed) {
+                currentUser.setPoints(currentUser.getPoints() + (int)(100*distance));
+                pointsText.setText(String.valueOf(currentUser.getPoints()));
+            }
 
             startButton.setText("Start");
         } else {
