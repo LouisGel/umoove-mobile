@@ -1,10 +1,15 @@
 package com.example.umoove;
 
+import android.animation.IntArrayEvaluator;
+import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.MainThread;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 /**
@@ -13,11 +18,22 @@ import android.widget.TextView;
  * create an instance of this fragment.
  *
  */
-public class SignInFragment extends Fragment {
+public class SignInFragment extends Fragment implements View.OnClickListener {
+    Button signInButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_sign_in, container, false);
+        View view = inflater.inflate(R.layout.fragment_sign_in, container, true);
+
+        signInButton = (Button)view.findViewById(R.id.signInButton);
+        signInButton.setOnClickListener(this);
+        
+        return view;
+    }
+
+    @Override
+    public void onClick(View view) {
+        startActivity(new Intent(getContext(), HomeActivity.class));
     }
 
     public static SignInFragment newInstance(String text) {

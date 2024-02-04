@@ -9,10 +9,14 @@ import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -24,8 +28,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        View signInView = getLayoutInflater().inflate(R.layout.fragment_sign_in, null);
-
         ViewPager2 viewPager = (ViewPager2)findViewById(R.id.loginPager);
         viewPager.setAdapter(new LoginPagerAdapter(getSupportFragmentManager(), getLifecycle()));
 
@@ -36,13 +38,6 @@ public class MainActivity extends AppCompatActivity {
                 default: tab.setText(R.string.sign_in); break;
             }
         })).attach();
-
-        Button signInButton = signInView.findViewById(R.id.signInButton);
-        signInButton.setOnClickListener((view) -> {
-                    Intent i = new Intent(MainActivity.this,HomeActivity.class);
-                    startActivity(i);
-                }
-        );
     }
 
     private class LoginPagerAdapter extends FragmentStateAdapter {
