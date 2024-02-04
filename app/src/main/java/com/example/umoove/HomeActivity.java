@@ -16,6 +16,7 @@ import android.location.LocationProvider;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
@@ -40,6 +41,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     // Elements
     private Button startButton;
     private TextView pointsText;
+    private TextView currentDistance;
 
     // Values
     private boolean moving = false;
@@ -56,8 +58,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         @Override
         public void onLocationChanged(final Location location) {
             double speedKmH = Float.valueOf(location.getSpeed()*3.6f).doubleValue();
-            if (speedKmH > maxAbsoluteSpeed && moving) {
-                toggleMove(location);
+            if (moving) {
+                if (speedKmH > maxAbsoluteSpeed) {
+                    toggleMove(location);
+                }
+                double distance = calcDistance(startLocation, location);
+                currentDistance.setText(String.format("%.2f", distance) + " km");
             }
         }
     };
@@ -89,6 +95,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         // Set Elements
         pointsText = (TextView) findViewById(R.id.pointsNb);
         pointsText.setText(String.valueOf(currentUser.getPoints()));
+        currentDistance = (TextView)findViewById(R.id.currentDistance);
+        TextView welcome = (TextView)findViewById(R.id.welcomeText);
+        welcome.setText("Hello " + currentUser.getFirstname() + "!");
 
         startButton = (Button)findViewById(R.id.startMoveButton);
 
@@ -136,20 +145,25 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             double seconds = Long.valueOf((currentDateTime.getTime() - startDateTime.getTime())/ 1000).doubleValue();
 
             double meanSpeed = distance/(seconds/3600.0);
-            Toast toast = Toast.makeText(this, String.valueOf(meanSpeed) + "km/h", Toast.LENGTH_LONG);
-            toast.show();
 
             // Distribute reward
             if (meanSpeed <= maxMeanSpeed) {
-                currentUser.setPoints(currentUser.getPoints() + (int)(100*distance));
+                int reward = (int)(100*distance);
+                currentUser.setPoints(currentUser.getPoints() + reward);
                 pointsText.setText(String.valueOf(currentUser.getPoints()));
+
+                Toast toast = Toast.makeText(this, Integer.toString(reward) + " points received \uD83D\uDCAA", Toast.LENGTH_LONG);
+                toast.show();
             }
 
+            currentDistance.setVisibility(View.INVISIBLE);
             startButton.setText("Start");
         } else {
             moving = true;
             startLocation = location;
             startDateTime = Calendar.getInstance().getTime();
+            currentDistance.setText("0.0 km");
+            currentDistance.setVisibility(View.VISIBLE);
             startButton.setText("Arrived");
         }
     }
