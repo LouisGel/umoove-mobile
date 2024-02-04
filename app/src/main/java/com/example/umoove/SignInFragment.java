@@ -27,7 +27,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
 
         signInButton = (Button)view.findViewById(R.id.signInButton);
         signInButton.setOnClickListener(this);
-        
+
         return view;
     }
 
