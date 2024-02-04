@@ -50,8 +50,10 @@ public class StoreActivity extends AppCompatActivity implements NavigationView.O
     }
 
     private void setCoupons(){
-        coupons.add(new CouponModel(500, "Coupon 15%", "un criss de coupon", "shell", 10));
-        coupons.add(new CouponModel(500, "Coupon 15%", "un criss de coupon", "shell", 10));
+        coupons.add(new CouponModel(666, "Coupon -15%", "un coupon douteux...", "IGA", 10));
+        coupons.add(new CouponModel(50, "Coupon 10%", "un beau de coupon vert", "IGA", 10));
+        coupons.add(new CouponModel(700, "Coupon 151%", "un beau de coupon jaune", "shell", 10));
+        coupons.add(new CouponModel(500000, "Fait revenir les Nordiques à Québec", "un beau coupon bleu", "???", 10));
 
     }
 

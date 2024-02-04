@@ -3,9 +3,7 @@ package com.example.umoove;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.PixelCopy;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -22,7 +20,6 @@ import java.util.ArrayList;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -51,11 +48,11 @@ public class CouponRecyclerViewAdapter extends RecyclerView.Adapter<CouponRecycl
     @Override
     public void onBindViewHolder(@NonNull CouponRecyclerViewAdapter.viewHolder holder, @SuppressLint("RecyclerView") int position) {
 
-        holder.txtViewprice.setText(String.valueOf(coupons.get(position).getPrice()));
+        holder.txtViewprice.setText(String.valueOf("Prix : " + coupons.get(position).getPrice()));
         holder.txtViewName.setText(coupons.get(position).getName());
         holder.txtViewDescription.setText(coupons.get(position).getDescription());
-        holder.txtViewEntreprise.setText(coupons.get(position).getEntreprise());
-        holder.txtViewRemaining.setText(String.valueOf(coupons.get(position).getRemaining()));
+        holder.txtViewEntreprise.setText("Entreprise : " + coupons.get(position).getEntreprise());
+        holder.txtViewRemaining.setText("Restant :" +  String.valueOf(coupons.get(position).getRemaining()));
 
 
         int price = coupons.get(position).getPrice();
@@ -198,8 +195,8 @@ public class CouponRecyclerViewAdapter extends RecyclerView.Adapter<CouponRecycl
         public viewHolder(@NonNull View itemView) {
             super(itemView);
 
-            txtViewprice = itemView.findViewById(R.id.textPrice);
-            txtViewName = itemView.findViewById(R.id.textName);
+            txtViewprice = itemView.findViewById(R.id.textCode);
+            txtViewName = itemView.findViewById(R.id.textUsed);
             txtViewDescription = itemView.findViewById(R.id.textDescription);
             txtViewEntreprise = itemView.findViewById(R.id.textEntreprise);
             txtViewRemaining = itemView.findViewById(R.id.textRemaining);
