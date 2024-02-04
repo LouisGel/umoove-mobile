@@ -21,7 +21,8 @@
             android:exported="false" />
         <activity
             android:name=".StoreActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"/>
         <activity
             android:name=".HomeActivity"
             android:exported="false"
