@@ -7,4 +7,5 @@
     <string name="email">Email</string>
     <string name="nav_open">Open Navigation</string>
     <string name="nav_close">Close Navigation</string>
+    <string name="recycle_emoji">♻️</string>
 </resources>
