@@ -35,8 +35,8 @@ public class MesCouponRecyclerViewAdapter extends RecyclerView.Adapter<MesCoupon
         String txtUsable = (usable)?"Utilisable":"Inutilisable";
         holder.txtUsed.setText(String.valueOf(txtUsable));
         holder.txtDescription.setText(coupons.get(position).getDescription());
-        holder.txtCode.setText(coupons.get(position).getCode());
-        holder.txtEntreprise.setText(coupons.get(position).getEntreprise());
+        holder.txtCode.setText("Code : " + coupons.get(position).getCode());
+        holder.txtEntreprise.setText("Entreprise" + coupons.get(position).getEntreprise());
     }
 
     @Override

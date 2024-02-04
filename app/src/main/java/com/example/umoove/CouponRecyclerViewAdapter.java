@@ -48,11 +48,11 @@ public class CouponRecyclerViewAdapter extends RecyclerView.Adapter<CouponRecycl
     @Override
     public void onBindViewHolder(@NonNull CouponRecyclerViewAdapter.viewHolder holder, @SuppressLint("RecyclerView") int position) {
 
-        holder.txtViewprice.setText(String.valueOf(coupons.get(position).getPrice()));
+        holder.txtViewprice.setText(String.valueOf("Prix : " + coupons.get(position).getPrice()));
         holder.txtViewName.setText(coupons.get(position).getName());
         holder.txtViewDescription.setText(coupons.get(position).getDescription());
-        holder.txtViewEntreprise.setText(coupons.get(position).getEntreprise());
-        holder.txtViewRemaining.setText(String.valueOf(coupons.get(position).getRemaining()));
+        holder.txtViewEntreprise.setText("Entreprise : " + coupons.get(position).getEntreprise());
+        holder.txtViewRemaining.setText("Restant :" +  String.valueOf(coupons.get(position).getRemaining()));
 
 
         int price = coupons.get(position).getPrice();
